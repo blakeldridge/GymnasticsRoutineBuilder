@@ -1,0 +1,10 @@
+:root {
+    --background-color: #121212;
+    --surface-color: #1E1E1E;
+    --hover-color: #282828;
+    --primary-text-color: #E0E0E0;
+    --secondary-text-color: #B0B0B0;
+    --primary-highlight-color: #FF8C00;
+    --secondary-highlight-color: #FFA500;
+    --accent-highlight-color: #ffea70;
+  }

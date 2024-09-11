@@ -1,0 +1,35 @@
+.apparatus-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100vw;
+    height: 90vh;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 60px;
+}
+
+.apparatus-button {
+    width: 100%;
+    height: 100%;
+    font-size: 4em;
+    padding: 20px;
+    background-color: var(--surface-color);
+    color: var(--primary-text-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.apparatus-button:hover {
+    background-color: var(--hover-color);
+}
+
+@media (max-width: 900px) {
+    .button-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+

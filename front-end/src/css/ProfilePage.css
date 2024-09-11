@@ -1,0 +1,106 @@
+/* Main container to align the profile section on the left 
+   and the routines section on the right */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: calc(100vh - 60px); /* Adjust height to account for the navbar */
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 60px; /* Add margin to push content down */
+    color: var(--primary-text-color);
+}
+
+/* Profile section styling */
+.profile-section {
+    background-color: var(--surface-color);
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    height: 100%; /* Full height of container */
+    padding: 20px; /* Adjust padding as needed */
+    box-sizing: border-box;
+}
+
+.profile-section img {
+    width: 45%; /* Adjust image size */
+    aspect-ratio: 1/1; /* Maintain a perfect square aspect ratio */
+    border-radius: 50%; /* Make the image circular */
+    object-fit: cover; /* Ensure the image covers the entire circle without distortion */
+    margin-bottom: 20px; /* Add some space between the image and the name */
+}
+
+.profile-section h2 {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: bold; /* Make the name bold */
+}
+
+.profile-section p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.profile-section button {
+    background-color: var(--primary-highlight-color);
+    color: var(--primary-text-color);
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+/* Routines section styling */
+.routines-section {
+    width: 65%;
+    background-color: var(--surface-color);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px; /* Adjust padding as needed */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Full height of container */
+}
+
+/* Tab container styling */
+.tab-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: var(--hover-color);
+    border-radius: 5px;
+}
+
+.tab.active {
+    background-color: var(--primary-highlight-color);
+}
+
+/* Routine tabs content */
+.routine-tab {
+    flex: 1; /* Allow the tab content to expand */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.routine-tab.active {
+    display: block;
+}
+
+.routine-tab div p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.routine-tab div p:second-child {
+    font-weight: bold;
+}

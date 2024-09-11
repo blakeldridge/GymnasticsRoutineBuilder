@@ -1,0 +1,27 @@
+/* DraggableItem.css */
+.draggable-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    user-select: none;
+    padding: 16px;
+    background-color: var(--hover-color);
+    border: 1px solid var(--surface-color);
+    border-radius: 8px;
+    margin: 0.1em 1em;
+    color: var(--primary-text-color)
+}
+
+.circle {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height to match the width for a perfect circle */
+    border-radius: 50%; /* Makes the element a circle */
+    background-color: var(--primary-highlight-color); /* Background color of the circle */
+    display: flex; /* Use flexbox to center the text */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    color: var(--primary-text-color); /* Text color */
+    font-size: 20px; /* Adjust text size as needed */
+    text-align: center; /* Center text inside */
+    line-height: 1.2; /* Adjust line height for better vertical alignment */
+}

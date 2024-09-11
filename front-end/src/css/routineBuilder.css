@@ -1,0 +1,297 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Container for the entire routine builder */
+.routine-builder {
+    display: flex;
+    flex-direction: row; /* Ensure children are side by side */
+    width: 100vw; /* Full viewport width */
+    height: 90vh; /* Full viewport height */
+    margin-top: 60px;
+}
+
+/* Skills section styling */
+.skills {
+    flex: 1; /* Make it take up half the space */
+    height: 100%; /* Full height of the container */
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in the element's width and height */
+}
+
+/* Routine section styling */
+.routine {
+    flex: 2; /* Make it take up the other half of the space */
+    height: 100%; /* Full height of the container */
+    overflow-y: auto; /* Scrollable if content overflows */
+    box-sizing: border-box; /* Include padding in the element's width and height */
+    text-align: center;
+}
+
+.routine-title {
+    font-size: 5em;
+    color: var(--primary-text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for the skills group */
+.skills-group {
+    height:100%;
+    width: 100%; /* Take full width of the .skills section */
+    overflow-y: auto; /* Scrollable if content overflows */
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout for the skills list */
+.skills-box {
+    display: flex;
+    flex-direction: column; /* Stack skills vertically */
+}
+
+/* Layout for routine slots */
+.skill-drop-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column layout */
+    grid-template-rows: repeat(8, 1fr); /* Eight rows */
+    gap:8px;
+    border-radius: 8px;
+}
+
+.skill-drop {
+    width: 100%;
+    display:flex;
+    align-items: center;
+    background-color: var(--surface-color);
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.skill-drop-index {
+    width: 10%;
+    color: var(--primary-text-color);
+    text-align: center;
+}
+
+.skill-drop-placeholder {
+    width: 90%;
+}
+
+/* Skill page title bar */
+.skill-page-filter {
+    display: flex;
+    padding: 2em 2em;
+    justify-content: space-between; /* Align buttons on each side */
+    align-items: center;
+}
+
+/* General box styling */
+.box {
+    position: relative;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--secondary-highlight-color);
+    border-radius: 8px;
+    background-color: var(--surface-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Close button styling */
+.closeButton {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.unavailable-placeholder {
+    opacity: 0.5;
+    color: var(--primary-text-color);
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-highlight-color);
+    border-radius: 8px;
+}
+
+/* Difficulty block styling */
+.difficulty-block {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+    padding: 0 16px; /* Only horizontal padding */
+    margin: 1em 0;
+    border-radius: 8px;
+    align-items: baseline; /* Center vertically */
+    justify-content: space-around; /* Distribute space evenly */
+    gap: 10px; /* Add some space between the difficulty sections */
+}
+
+/* Individual difficulty section */
+.difficulty-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0; /* Remove margin */
+    border-radius: 4px;
+    line-height: 1;
+    min-width: 100px; /* Minimum width to prevent being too small */
+    flex: 1; /* Allow the sections to grow and fill available space */
+    box-sizing: border-box;
+}
+
+.difficulty-name-box {
+    display: flex;
+    justify-content: space-between; /* Space between key and info button */
+    align-items: center; /* Center vertically */
+    width: 100%; /* Ensure it takes up the full width of the container */
+}
+
+.difficulty-key {
+    font-size: 2.0em;
+    color: var(--primary-text-color);
+    margin: 0;
+    padding: 0 5px;
+}
+
+.difficulty-value-box {
+    background-color: var(--primary-highlight-color);
+    width:95%;
+    border-radius: 8px;
+    margin-bottom: 3px;
+}
+
+/* Difficulty value styling */
+.difficulty-value {
+    font-size: 2.0em; /* Adjust font size if too large */
+    text-align: center;
+    color: var(--primary-text-color);
+    margin: 0; /* Remove default margin */
+    line-height: 1; /* Line height matches the font size */
+}
+
+/* Start value section styling */
+.start-value-section {
+    display: flex;
+    align-items: baseline; /* Align the texts properly */
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+}
+
+.start-value {
+    font-size: 5.5em; /* Adjust the font size */
+    margin: 0;
+    margin-right: 5px; /* Space between start value and label */
+    font-weight: bold;
+    line-height: 1; /* Ensure the text height matches the line height */
+    color: var(--primary-text-color)
+}
+
+.start-value-label {
+    margin: 0;
+    font-size: 2.5em; /* Smaller font size for the label */
+    color: var(--secondary-text-color);
+    line-height: 1; /* Ensure the text height matches the line height */
+}
+
+.difficulty-info-container {
+    position: relative;
+    display: inline-block;
+    margin-left: auto; /* Push the info button to the right */
+}
+
+/* Style for the info button */
+.difficulty-info-button {
+    background-color: var(--secondary-highlight-color);
+    color: var(--primary-text-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 1em;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 24px;
+    position: relative;
+}
+
+/* Tooltip styling */
+.difficulty-info-tooltip {
+    visibility: hidden;
+    width: 200px; /* Adjust the width as needed */
+    background-color: var(--surface-color);
+    color: var(--primary-text-color);
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: 1;
+    /*bottom: 125%; /* Adjust based on where you want the tooltip */
+    left: 50%;
+    transform: translateX(-100%); 
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Show tooltip on hover */
+.difficulty-info-container:hover .difficulty-info-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.colour-penalty {
+    background-color: red;
+}
+
+.colour-execution {
+    background-color: var(--primary-highlight-color);
+}
+
+.colour-difficulty {
+    background-color: var(--secondary-highlight-color);
+}
+
+/* Input and Dropdown Styling */
+input[type="text"],
+select {
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid var(--secondary-highlight-color);
+    border-radius: 8px;
+    background-color: var(--surface-color);
+    color: var(--primary-text-color);
+    font-size: 1em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+select:focus {
+    border-color: var(--primary-highlight-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    outline: none; /* Remove default outline */
+}
+
+/* Dropdown arrow styling */
+select {
+    appearance: none; /* Remove default dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 32px; /* Add padding for the custom icon */
+}
