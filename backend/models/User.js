@@ -6,14 +6,21 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    email : {
+        type : DataTypes.STRING,
+        allowNull: false,
+    },
     password :{
         type: DataTypes.STRING,
         allowNull: false,
     },
     profile_pic :{
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         allowNull: true
     }
+},
+{
+    tableName : 'Users',
 });
 
 module.exports = User;

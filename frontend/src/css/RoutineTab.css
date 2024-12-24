@@ -1,0 +1,138 @@
+.routine-entry {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--hover-color);
+    margin-right: 5em;
+    position: relative;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    margin: 1em 0;
+    border-radius: 10px;
+    background-color: var(--background-color);
+}
+
+.apparatus-icon {
+    width: 80px; 
+    height: 80px;
+    object-fit: contain;
+    display: block;
+    margin-right: 25px; 
+}
+
+.routine-name {
+    width: 15%;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: var(--primary-text-color);
+    padding-right: 10px; /* Space between name and start value */
+}
+
+.start-value-container {
+    text-align: center;
+    font-size: 1.4em;
+    color: var(--secondary-text-color);
+    margin-left: 20px; /* Space to the left of the start value */
+}
+
+.difficulty-breakdown-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px; /* Space between start value and difficulty breakdown */
+}
+
+.difficulty-breakdown {
+    background-color: var(--secondary-highlight-color);
+    padding: 10px; /* Increased padding for better appearance */
+    margin: 0 5px; 
+    border-radius: 4px;
+    text-align: center;
+    width: 50px; /* Set a fixed width for uniformity */
+    min-width: 50px; /* Ensure minimum width for smaller values */
+}
+
+.difficulty-breakdown-value {
+    text-align:center;
+}
+
+.colour-0, .colour-1 {
+    background-color: var(--primary-highlight-color);
+}
+
+.colour-2 {
+    background-color: red;
+}
+
+.routine-interactive {
+    display: flex;
+    align-items: center;
+}
+
+.collection-text {
+    font-size: 1.2em;
+    color: var(--primary-text-color);
+    margin-left: auto; /* Push to the end of the row */
+    margin-right: 20px; /* Add space on the right */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.competition-text {
+    font-size: 1.2em;
+    color: var(--primary-text-color);
+    margin-left: auto; /* Push to the end of the row */
+    margin-right: 20px; /* Add space on the right */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.edit-routine-button {
+    width: 24px; /* Adjust width to match your edit button size */
+    height: 24px; /* Adjust height as needed */
+    margin-left: 15px; 
+    margin-right: 15px;
+    cursor: pointer;
+    color: var(--primary-text-color);
+}
+
+.edit-routine-placeholder {
+    width: 24px; /* Adjust width to match your edit button size */
+    height: 24px; /* Adjust height as needed */
+    margin-left: 15px; /* Space between elements */
+    margin-right:15px;
+}
+
+.favourite-star {
+    cursor: pointer;
+    font-size: 1.5em; /* Size for visibility */
+}
+
+.favourite-star.favourited {
+    color: yellow;
+}
+
+.favourite-star.not-favourited {
+    color: gray;
+}
+
+/* Additional styles for better responsiveness */
+@media (max-width: 768px) {
+    .routine-entry {
+        flex-direction: column; /* Stack elements on smaller screens */
+        align-items: flex-start; /* Align items to start */
+    }
+
+    .routine-name {
+        width: 100%; /* Full width for mobile */
+        margin-left: 0; /* Reset margin */
+        margin-bottom: 10px; /* Add bottom margin for spacing */
+    }
+
+    .difficulty-breakdown-container {
+        width: 100%; /* Full width for mobile */
+        margin-bottom: 10px; /* Add bottom margin for spacing */
+    }
+
+    .edit-routine-button {
+        margin: 5px 0; /* Adjust margin for mobile */
+    }
+}

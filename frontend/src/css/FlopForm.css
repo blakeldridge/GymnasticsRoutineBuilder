@@ -1,0 +1,125 @@
+.flop-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.flop-modal {
+    background-color: var(--surface-color);
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1100;
+}
+
+.flop-editor-button {
+    background-color: var(--primary-highlight-color);
+    color: var(--primary-text-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 8px;
+    cursor: pointer;
+    transition: var(--background-color) 0.3s;
+}
+
+.flop-editor-button:hover {
+    background-color: var(--secondary-highlight-color);
+}
+
+.flop-editor-button:disabled {
+    background-color: var(--background-color);
+    cursor: not-allowed;
+}
+
+.handle-button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.flop-handle-button {
+    background-color: var(--primary-highlight-color);
+    color: var(--primary-text-color);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--background-color) 0.3s;
+}
+
+.flop-handle-button:hover {
+    background-color: var(--secondary-highlight-color);
+}
+
+.cancel-flop-button {
+    background-color: var(--hover-color);
+}
+
+.cancel-flop-button:hover {
+    background-color: var(--background-color);
+}
+
+.flop-form-container {
+    margin: 20px;
+}
+
+.flop-modal select {
+    appearance: none; /* Remove default browser styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid var(--secondary-highlight-color);
+    border-radius: 4px;
+    font-size: 16px;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M2%200L0%202h4z%22/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Arrow position */
+    background-size: 12px; /* Size of the arrow */
+    padding-right: 30px; /* Ensures space for the arrow */
+}
+
+/* When the select is focused (or dropdown is open), rotate the arrow upwards */
+.flop-modal select:focus {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M2%205L0%203h4z%22/%3E%3C/svg%3E'); /* Custom upward arrow */
+    transition: background-image 0.3s ease-in-out;
+}
+
+.flop-modal h2 {
+    color: var(--primary-text-color);
+    text-align: center;
+    font-size: 1.5em;
+    margin: 16px 0;
+}
+
+.flop-skill-options {
+    display: block;
+    position: absolute;
+    background-color: var(--background-color);
+    border: 1px solid var(--secondary-highlight-color);
+    border-radius: 4px;
+    z-index: 1;
+    width: 100%;
+}
+
+.flop-skill-option {
+    padding: 10px;
+    color: var(--primary-text-color);
+    transition: background-color 0.2s ease;
+    background-color: var(--background-color);
+    cursor: pointer;
+}
+
+.flop-skill-option:hover {
+    background-color: var(--hover-color);
+}  

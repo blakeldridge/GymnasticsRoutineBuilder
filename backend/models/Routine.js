@@ -11,11 +11,11 @@ const Routine = sequelize.define('Routine', {
         allowNull: false,
     },
     skills: {
-        type: DataTypes.JSON,
+        type: DataTypes.JSONB,
         allowNull: false,
     },
     difficulty: {
-        type: DataTypes.JSON,
+        type: DataTypes.JSONB,
         allowNull: false,
     },
     isActive: {
@@ -30,6 +30,17 @@ const Routine = sequelize.define('Routine', {
         },
         allowNull: false,
     },
+    collectionId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'Collections',
+            key: 'id'
+        },
+        allowNull: true
+    }
+},
+{
+    tableName : 'Routines',
 });
 
 module.exports = Routine;

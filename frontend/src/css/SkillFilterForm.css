@@ -1,0 +1,46 @@
+.filter-form {
+    background-color: var(--hover-color);
+    border-radius: 8px;
+    padding: 1em 2em;
+    margin: 0 1em 1em 1em;
+    display:flex;
+    justify-content: space-between;
+}
+
+.difficulty-container {
+    margin-left:30%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 3px;
+}
+
+.group-selector {
+    margin: auto 0;
+    margin-right: 3%;
+}
+
+.filter-form {
+    position: relative;
+    padding: 16px;
+}
+
+.reset-button-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 8px;
+}
+
+.reset-button {
+    background-color: var(--primary-highlight-color);
+    color: var(--primary-text-color);
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.reset-button:hover {
+    background-color: var(--primary-highlight-hover-color);
+}

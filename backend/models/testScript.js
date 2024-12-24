@@ -1,16 +1,13 @@
-const sequelize = require('../config/database'); // Adjust the path as needed
-const Routine = require('./Routine'); // Adjust the path as needed
+const sequelize = require('../config/database');
+const User = require('./User');
 
-async function syncTable() {
+async function syncDatabase() {
     try {
-        // Sync only the User model table
-        await Routine.sync({ force: true }); // Drops the User table if it exists and recreates it
-        console.log('User table has been synchronized.');
-
-        // If needed, synchronize other models separately or add logic for them
+        await User.sync({ force: true }); // Auto-sync the database schema
+        console.log('Database synced successfully.');
     } catch (error) {
-        console.error('Error syncing User table:', error);
+        console.error('Error syncing database:', error);
     }
 }
 
-syncTable();
+syncDatabase();

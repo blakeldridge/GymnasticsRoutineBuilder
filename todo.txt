@@ -1,0 +1,64 @@
+CHANGES TO BE MADE:
+
+BUGS AND FEATURES:
+- FEATURE display a warning flag if there is a penalty, on hover will tell user what is wrong
+- FEATURE could have a sort and search for routines (all routines tab)
+- FEATURE add whole collection as active routines
+- FEATURE add info boxes to indicate what each group means, etc
+- FEATURE confirmation of deleting routine / collection
+- FEATURE any button should have a description on hover
+- FEATURE email confirmation
+- FEATURE groups should explain what they are, eg group II - flight elements
+- FEATURE Add penalties again
+- BUG difficulty calculation, add all the niche difficulty rules
+Floor : Special repetitions (only 1 strength, only 1 circle element counted), group 1 not dismount
+Pommel : handstand (dismount and back to circle) variations, max amount of element types
+Rings : not more than 3 group 2 / 3 elements can be repeated in succession, 4th element not recognised
+to have 4th counted, must be swing element B+ in between (must be in counting elements)
+repeating same strength type element
+yamma or jonaason into handstand upgrades value
+Vault : only take first vault as SV, ensure 2 separate group vaults
+- BUG when resetting filters, does not refilter properly
+- BUG flop 2 does not appear right away, need to refresh the feed when adding a flop
+- BUG collection does not apply when first saving
+
+STYLING:
+- any shortened terms should either be replaced with the full word, or be found with its full form eg forward finds fwd.
+- make friendly to all screen sizes (or most)
+- design logo
+- design home page
+- design login and sign up page
+- FEATURE loading animations when waiting to fetch info
+- reset filter button hover colour wrong
+- some names still too long (will keep enlarging the skill placeholders) : fix margins or padding of placeholders (size should not change)
+- comment all code
+- style adding collection in routine builder
+- drag and drop (text should disappear when hovering)
+
+WORKING ON:
+- BUG should be able to drag skill to another to switch
+
+COMPLETED:
+- skill list entries should show group
+- on save routine, when adding a collection, submit button should not be able to be selected
+- routine tabs should show collection they are in (if they are in one)
+- save routine should change, if new routine, then keep the same, 
+if old routine, have edit button next to routine name, dropdown menu for collection too, asve button should just highlight and say saved!
+- on remove element from routine, the skills list resets (should stay with the previous filters)
+- search and filters still slightly unsynced
+- skill searching should flag differently,
+    should check per term and whole term eg fwd 1/1 should still find salto fwd with 1/1 t.
+- BUG collection routine order
+- BUG saving existing routines, does not change the skill
+- BUG vault score breakdown
+- BUG not all connections are accounted for
+- BUG fix adding extra collection in routine builder
+- BUG cannot delete a collection
+- BUG cannot delete a routine
+- FEATURE email login
+- BUG profile picture default not showing properly
+- BUG On new collection created, doesnt auto attach to routine
+- BUG Colletions allow multiple of same apparatus piece to be saved (so not being overwritten )
+- BUG vault breakdown in profile not shown
+- BUG circles have changed (probably due to home page styling)
+- BUG drag and drop, should be able to drag back to skill list (to remove)

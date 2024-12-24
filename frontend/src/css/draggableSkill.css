@@ -1,0 +1,47 @@
+.draggable-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    user-select: none;
+    padding: 16px;
+    background-color: var(--hover-color);
+    border: 1px solid var(--surface-color);
+    border-radius: 8px;
+    margin: 0.1em 1em;
+    color: var(--primary-text-color);
+    transition: background-color 0.3s, opacity 0.3s; /* Smooth transition for visual changes */
+}
+
+.draggable-item.disabled {
+    background-color: var(--disabled-background-color); /* Lighter or gray background color */
+    color: var(--disabled-text-color); /* Lighter or gray text color */
+    opacity: 0.6; /* Slightly transparent to indicate disabled state */
+    cursor: not-allowed; /* Show not-allowed cursor */
+}
+
+.add-skill-button {
+    color: var(--primary-text-color);
+    cursor: pointer;
+}
+
+.add-skill-button:hover {
+    color: var(--primary-highlight-color);
+}
+
+.add-skill-button-disabled {
+    color: var(--hover-color);
+}
+
+.circle {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height to match the width for a perfect circle */
+    border-radius: 50%; /* Makes the element a circle */
+    background-color: var(--primary-highlight-color); /* Background color of the circle */
+    display: flex; /* Use flexbox to center the text */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    color: var(--primary-text-color); /* Text color */
+    font-size: 20px; /* Adjust text size as needed */
+    text-align: center; /* Center text inside */
+    line-height: 1.2; /* Adjust line height for better vertical alignment */
+}

@@ -2,12 +2,17 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sequelize = require('./config/database');
+const multer = require('multer');
+const path = require('path');
 const User = require('./models/User');
 const Routine = require('./models/Routine.js');
 const GymnasticsSkill = require('./models/GymnasticsSkill');
+const Collection = require('./models/Collection.js');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 sequelize.sync()
     .then(() => {
@@ -17,21 +22,61 @@ sequelize.sync()
         console.error('Error syncing database:', err);
     });
 
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, 'uploads/profile-pics')); // Directory to save the uploaded files
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + '-' + file.originalname); // Unique filename
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
 // Define your routes here
+
+/* Log in and sign up endpoints */
 
 // Signup endpoint
 app.post('/api/signup', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     try {
-        if (!username || !password) {
-            return res.status(400).json({ error: 'Username and password are required' });
+        if (!username || !email || !password) {
+            return res.status(400).json({ error: 'Username, email and password are required' });
         }
+
+        const usernameFound = await User.findOne({ where : {name:username}});
+        if (usernameFound) {
+            return res.status(400).json({error : 'Username taken.'});
+        }
+
+        const emailFound = await User.findOne({ where : {email:email}});
+        if (emailFound) {
+            return res.status(400).json({error:'Email taken. Try logging in instead.'});
+        } 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name:username, password: hashedPassword });
+        const user = await User.create({ name:username, email: email, password: hashedPassword });
         res.status(201).json({ id: user.id });
+
     } catch (error) {
-        console.error('Error during signup:', error); // Log the error details
-        res.status(500).json({ error: 'Signup failed' });
+        // Handle different error cases
+        if (error.name === 'SequelizeValidationError') {
+            // Handle validation errors
+            return res.status(400).json({ error: 'Invalid data format.' });
+        } else if (error.name === 'SequelizeUniqueConstraintError') {
+            // Handle unique constraint errors for fields like email or username
+            return res.status(400).json({ error: 'A user with this email or username already exists.' });
+        } else if (error.name === 'ValidationError') {
+            // Handle errors from other validation issues (e.g., if the password doesn't meet criteria)
+            return res.status(400).json({ error: 'Validation error occurred during signup.' });
+        } else {
+            // Handle any other unexpected errors
+            console.error('Error during signup:', error); // Log the error details for debugging
+            return res.status(500).json({ error: 'An unexpected error occurred during signup. Please try again later.' });
+        }
     }
 });
 
@@ -40,10 +85,10 @@ app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await User.findOne({ where: { name:username } });
-        if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+        if (!user) return res.status(401).json({ error: 'Username or Password is incorrect.' });
 
         const match = await bcrypt.compare(password, user.password);
-        if (!match) return res.status(401).json({ error: 'Invalid credentials' });
+        if (!match) return res.status(401).json({ error: 'Username or Password is incorrect.' });
 
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret');
         res.json({ token });
@@ -51,6 +96,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Login failed' });
     }
 });
+
 // Middleware to verify token
 const verifyToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
@@ -83,6 +129,146 @@ app.get('/api/user/:id', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Failed to get user.' });
     }
 });
+
+/* USER ENDPOINTS */
+
+// Route to update username
+app.post('/api/user/:id/update-details/username', verifyToken, async (req, res) => {
+    const { id } = req.params;
+    const { username } = req.body;
+
+    try {
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({error: 'User not found'});
+        }
+        user.name = username;
+        await user.save();
+        res.status(200).json({message: 'User updated successfully'});
+    } catch (error) {
+        console.error('Error updating User:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Route to update profile picture
+app.post(`/api/user/:id/update-details/pfp`, verifyToken, upload.single('profilePicture'), async (req, res) => {
+    const { id } = req.params;
+    const file = req.file;  // Access uploaded file
+
+    try {
+        const user = await User.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (file) {
+            user.profile_pic = `/uploads/profile-pics/${file.filename}`; // Set profile picture URL
+        }
+
+        await user.save();
+        res.status(200).json({ message: 'User updated successfully', profile_pic: user.profile_pic });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
+/* COLLECTION ENDPOINTS */
+
+// Route to get all collections of a user
+app.get('/api/user/:id/collections', async (req, res) => {
+    const { id } = req.params;
+    try{
+        const collections = await Collection.findAll({ where : { userId : id }});
+        res.status(200).json(collections);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Route to get specific collection by id
+app.get('/api/user/:userId/collections/:id', async (req, res) => {
+    const { userId, id } = req.params;
+    try{
+        const collection = await Collection.findOne({ where : { userId : userId, id: id }});
+        res.status(200).json(collection);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Route to add new collection
+app.post('/api/user/:id/collections', async(req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+    try {
+        const newCollection = await Collection.create({
+            name: name,
+            userId: id
+        });
+
+        res.status(201).json({ id: newCollection.id });
+    } catch (error) {
+        console.error('Error adding collection:', error);
+        res.status(500).json({ message: 'Error  adding collection' });
+    }
+});
+
+// Route to edit collection
+app.post('/api/user/:userId/collections/:collectionId/update-details', async (req, res) => {
+    const { collectionId } = req.params;
+    const { name } = req.body;
+    try {
+        const collection = await Collection.findByPk(collectionId);
+        if (!collection) {
+            return res.status(404).json({ error: 'Collection not found' });
+        }
+
+        collection.name = name;
+        await collection.save();
+        
+        res.status(200).json({ message: "Collection updated Successfully "});
+    } catch (err) {
+        console.error('Error updating Collection:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Route to delete a collection
+app.delete('/api/user/:userId/collections/:collectionId/delete', async (req, res) => {
+    const { collectionId } = req.params;
+    try {
+        const result = await Collection.destroy({
+            where: { id:collectionId }
+        });
+        console.log("Are we there yey");
+
+        if (result) {
+            const routinesInCollection = await Routine.findAll({
+                where : {
+                    collectionId: collectionId
+                }
+            })
+    
+            for (let routine of routinesInCollection) {
+                routine.collectionId = null;
+                await routine.save();
+            }
+
+            return res.status(200).send(`Collection with ID ${collectionId} deleted`);
+        } else {
+            return res.status(404).send('Collection not found');
+        }
+
+    } catch (error) {
+        return res.status(500).send('Error deleting Collection: ' + error);
+    }
+});
+
+/* ROUTINE ENDPOINTS */
 
 // Route to get all routines of a user by id
 app.get('/api/user/routines/:id', verifyToken, async (req, res) => {
@@ -126,7 +312,6 @@ app.post('/api/routines/favourite/:id', verifyToken, async (req, res) => {
                 }});
 
             if (currentRoutine) {
-                console.log(currentRoutine);
                 currentRoutine.isActive = false;
                 await currentRoutine.save();
             }
@@ -146,23 +331,88 @@ app.post('/api/routines/favourite/:id', verifyToken, async (req, res) => {
 
 // Save routine to profile (protected)
 app.post('/api/routines/save', verifyToken, async (req, res) => {
-    const { name, apparatus, routine, difficulty, userId } = req.body;
+    const { name, apparatus, routine, difficulty, userId, collectionId } = req.body;
 
     try {
-        await Routine.create({
+
+        if (collectionId) {
+            const existingRoutine = await Routine.findOne({
+                where : {
+                    collectionId : collectionId,
+                    apparatus : apparatus,
+                }
+            })
+                   
+            if (existingRoutine) {
+                existingRoutine.collectionId = null;
+                await existingRoutine.save();
+            }
+        } 
+
+        const newRoutine = await Routine.create({
             name: name,
             userId: userId, 
             apparatus: apparatus,
             skills: routine,
-            difficulty: JSON.stringify(difficulty),
+            difficulty: difficulty,
+            collectionId: collectionId
         });
 
-        res.status(201).json({ message: 'Routine saved successfully' });
+        res.status(201).json({ message: 'Routine saved successfully', id: newRoutine.id });
     } catch (error) {
         console.error('Error saving routine:', error);
         res.status(500).json({ message: 'Error saving routine' });
     }
 });
+
+// Route to save existing routine
+app.post('/api/routines/save/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
+    const { name, apparatus, routine, difficulty, userId, collectionId } = req.body;
+
+    try {
+        const currentRoutine = await Routine.findByPk(id);
+        if (!currentRoutine) {
+            return res.status(404).json({error: 'Routine not found'});
+        }
+        
+        currentRoutine.name = name;
+        currentRoutine.apparatus = apparatus;
+        currentRoutine.skills = routine;
+        currentRoutine.difficulty = difficulty;
+        currentRoutine.userId = userId;
+        currentRoutine.collectionId = collectionId;
+
+        await currentRoutine.save();
+
+        res.status(200).json({message: 'Routine updated successfully'});
+    } catch (error) {
+        console.error('Error activating routine:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Route to delete a routine
+app.delete('/api/routines/delete/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await Routine.destroy({
+            where: {
+                id: id,
+            }
+        })
+
+        if (result) {
+            return res.status(200).send(`Routine with ID ${id} deleted`);
+        } else {
+            return res.status(404).send('Routine not found');
+        }
+    } catch (error) {
+        return res.status(500).send('Error deleting Routine: ' + error);
+    }
+});
+
+/* SKILL ENDPOINTS */
 
 // Route to add a new skill
 app.post('/api/skills', async (req, res) => {

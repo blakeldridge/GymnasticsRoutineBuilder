@@ -1,0 +1,3 @@
+database password - same as laptop
+
+port - 5432

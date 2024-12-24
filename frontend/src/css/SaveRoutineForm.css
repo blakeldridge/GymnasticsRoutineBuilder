@@ -1,0 +1,106 @@
+.save-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure it’s on top of other content */
+}
+
+.save-content {
+    background: var(--surface-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Adjust width as needed */
+}
+
+.save-content h2 {
+    margin-top: 0;
+    color: var(--primary-text-color);
+}
+
+.save-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.save-content input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid var(--secondary-highlight-color);
+    border-radius: 4px;
+}
+
+/* Button styles */
+.save-content button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.save-content button[type="submit"] {
+    background-color: var(--primary-highlight-color);
+    color: var(--primary-text-color);
+}
+
+.save-content button[type="button"] {
+    background-color: var(--hover-color);
+    color: var(--secondary-text-color);
+}
+
+.save-content button:disabled {
+    background-color: var(--background-color);
+    cursor:not-allowed;
+}
+
+.new-collection-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+.new-collection-input {
+    flex-grow: 1;
+    border: 1px solid var(--secondary-highlight-color); /* Blue border */
+    border-radius: 4px;
+    background-color: var(--surface-color); /* Dark input background */
+    outline: none;
+    color: var(--primary-text-color); /* White text */
+}
+
+.new-collection-input:focus {
+    border-color: var(--secondary-highlight-color); /* Keep blue border */
+}
+
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    color: var(--primary-highlight-color); /* Blue highlight on hover */
+}
+
+.confirm-cancel-icons {
+    font-size: 20px;
+    color: var(--primary-text-color);
+    transition: color 0.2s;
+    margin-bottom: 10px;
+}
+
+.icon-button:hover .confirm-cancel-icons {
+    color: var(--hover-highlight-color); /* Blue-ish color on hover */
+}
