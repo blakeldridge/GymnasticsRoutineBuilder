@@ -26,7 +26,6 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                         onMouseEnter={handleMouseEnter}  // Track mouse enter
                         onMouseLeave={handleMouseLeave}  // Track mouse leave
                         style={{
-                            minHeight: '80px',
                             backgroundColor: routine[index]
                                 ? 'var(--surface-color)'
                                 : snapshot.isDraggingOver

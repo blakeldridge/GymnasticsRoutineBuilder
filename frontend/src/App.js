@@ -15,10 +15,11 @@ import "./css/App.css";
 
 const AppContent = () => {
     const location = useLocation(); // Get the current path
+    // && location.pathname !== '/log-in' && location.pathname !== '/sign-up'
 
     return (
         <div>
-            {location.pathname !== '/' && location.pathname !== '/log-in' && location.pathname !== '/sign-up'? (
+            {location.pathname !== '/'? (
                 <Navbar />
             ) : null}
             <Routes>

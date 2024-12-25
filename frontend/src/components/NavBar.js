@@ -71,22 +71,34 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="navbar-logo">
-                <img src={logo} alt="Logo" />
+                <Link to="/">
+                    <img src={logo} alt="Logo" />
+                </Link>
             </div>
-            <div className="navbar-links">
-                {/*<Link to="/dev-panel">Development Panel</Link>*/}
-                <Link to="/apparatus-selector">Build Routine</Link>
-                <div className="profile-dropdown-container" ref={dropdownRef}>
-                    <Link to="/profile" onClick={handleProfileClick}>
-                        <img src={profileImage || profilePic} className="profile-link" alt="Profile" />
-                    </Link>
-                    {location.pathname === '/profile' && isDropdownOpen && (
-                        <div className="profile-dropdown">
-                            <Link to="/settings">Settings</Link>
-                            <a onClick={handleLogOut}>Logout</a>
+            <div>
+                {token ? (
+                    <div className="navbar-links">
+                        {/*<Link to="/dev-panel">Development Panel</Link>*/}
+                        <Link to="/apparatus-selector">Build Routine</Link>
+                        <div className="profile-dropdown-container" ref={dropdownRef}>
+                            <Link to="/profile" onClick={handleProfileClick}>
+                                <img src={profileImage || profilePic} className="profile-link" alt="Profile" />
+                            </Link>
+                            {location.pathname === '/profile' && isDropdownOpen && (
+                                <div className="profile-dropdown">
+                                    <Link to="/settings">Settings</Link>
+                                    <a onClick={handleLogOut}>Logout</a>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )
+                : (
+                    <div className="navbar-links">
+                        <Link to="/log-in">Log In</Link>
+                        <Link to="/sign-up">Sign Up</Link>
+                    </div>
+                )}
             </div>
         </nav>
     );

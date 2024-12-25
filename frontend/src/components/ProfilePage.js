@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaPencilAlt, FaArrowLeft, FaTrash } from 'react-icons/fa';
 import { jwtDecode } from 'jwt-decode';
 import ProfilePicture from './ProfilePicture';
@@ -23,11 +23,15 @@ const ProfilePage = () => {
     const [editCollectionName, setEditCollectionName] = useState(false);
     const [editCollectionNameValue, setEditCollectionNameValue] = useState('');
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (token && userId) {
             setUserData();
             setRoutineData();
             setCollectionData();
+        } else {
+            navigate('/log-in');
         }
     }, [token, userId]);
 

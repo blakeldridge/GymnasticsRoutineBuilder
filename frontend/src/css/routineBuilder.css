@@ -141,6 +141,7 @@ select {
     width: 100%; /* Ensure it takes full width */
 }
 
+
 .skill-drop {
     width: 100%;
     display: flex;
@@ -160,8 +161,6 @@ select {
 .skill-drop-placeholder {
     width: 90%;
 }
-
-
 
 /* Skill page title bar */
 .skill-page-filter {

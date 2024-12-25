@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import DraggableSkill from './DraggableSkill';
 import Placeholder from './RoutinePlaceholder';
-import SaveRoutineForm from './SaveRoutineForm';
 import FlopForm from './FlopForm';
 import FilterForm from './SkillFilterForm';
 import '../css/routineBuilder.css';
@@ -34,30 +33,31 @@ const RoutineBuilder = ({ apparatus }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch Collections
-                const collectionsResponse = await fetch(`/api/user/${userId}/collections`);
-                const collectionData = await collectionsResponse.json();
-                setCollections(collectionData);
-
                 // Fetch skills
                 const skillsResponse = await fetch(`/api/skills/by-apparatus/${apparatus}`);
                 const skillsData = await skillsResponse.json();
                 const sortedSkills = skillsData.sort((skill1, skill2) => skill1.difficulty - skill2.difficulty);
                 setSkills(sortedSkills);
                 setFilteredSkills(sortedSkills)
-                
-                // Fetch routine slots if id is available
-                if (id) {
-                    const routineResponse = await fetch(`/api/routines/${id}`);
-                    const routineData = await routineResponse.json();
-                    setRoutineSlots(JSON.parse(routineData.skills));
-                    setRoutineName(routineData.name);
-                    setRoutineNameValue(routineData.name);
+                if (token){
+                    // Fetch Collections
+                    const collectionsResponse = await fetch(`/api/user/${userId}/collections`);
+                    const collectionData = await collectionsResponse.json();
+                    setCollections(collectionData);
+                    
+                    // Fetch routine slots if id is available
+                    if (id) {
+                        const routineResponse = await fetch(`/api/routines/${id}`);
+                        const routineData = await routineResponse.json();
+                        setRoutineSlots(JSON.parse(routineData.skills));
+                        setRoutineName(routineData.name);
+                        setRoutineNameValue(routineData.name);
 
-                    if (routineData.collectionId){
-                        const name = collectionData.find(collection => collection.id === routineData.collectionId).name;
-                        setRoutineCollection(name);
-                        setCollectionFormValue(name);
+                        if (routineData.collectionId){
+                            const name = collectionData.find(collection => collection.id === routineData.collectionId).name;
+                            setRoutineCollection(name);
+                            setCollectionFormValue(name);
+                        }
                     }
                 }
 
@@ -408,49 +408,53 @@ const RoutineBuilder = ({ apparatus }) => {
                     </Droppable>
                 </div>
                 <div className="routine">
-                    <div className="routine-box">
-                        <div className="routine-info-box">
-                            {editRoutineName ? (
-                                <div className='edit-text-container'>
-                                    <input className="edit-input" value={routineNameValue} onChange={(event) => setRoutineNameValue(event.target.value)} />
-                                    <button className="edit-submit-btn" onClick={() => {setRoutineName(routineNameValue); setEditRoutineName(false); setChangesSaved(false);}}>Submit</button>
-                                    <button className="edit-cancel-btn" onClick={() => {setEditRoutineName(false); setRoutineNameValue(routineName)}}>Cancel</button>
+                        {token ? (
+                            <>
+                            <div className="routine-box">
+                                <div className="routine-info-box">
+                                    {editRoutineName ? (
+                                        <div className='edit-text-container'>
+                                            <input className="edit-input" value={routineNameValue} onChange={(event) => setRoutineNameValue(event.target.value)} />
+                                            <button className="edit-submit-btn" onClick={() => {setRoutineName(routineNameValue); setEditRoutineName(false); setChangesSaved(false);}}>Submit</button>
+                                            <button className="edit-cancel-btn" onClick={() => {setEditRoutineName(false); setRoutineNameValue(routineName)}}>Cancel</button>
+                                        </div>
+                                    ) : (
+                                        <div className="routine-title-container">
+                                            <h2 className="routine-title">{routineName}</h2>
+                                            <FaPencilAlt className="edit-icon" onClick={() => { setEditRoutineName(true); }} />
+                                        </div>
+                                    )}
+                                    {collectionFormValue === "Add New" ? (
+                                        <div className="new-collection-container">
+                                            <input 
+                                                className="new-collection-input" 
+                                                value={routineCollection} 
+                                                placeholder="Enter Collection Name..." 
+                                                onChange={(event) => {
+                                                    setRoutineCollection(event.target.value);
+                                                }} 
+                                            />
+                                            <span className="icon-button confirm-button" onClick={confirmNewCollection}>
+                                                <FaCheck className="confirm-cancel-icons" />
+                                            </span>
+                                            <span className="icon-button cancel-button" onClick={() => { setCollectionFormValue(""); setRoutineCollection("") }}>
+                                                <FaTimes className="confirm-cancel-icons" />
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <select value={collectionFormValue} onChange={(event) => { setCollectionFormValue(event.target.value); setChangesSaved(false); }}>
+                                            <option value="">No Collection</option>
+                                            {collections.map((collection) => (
+                                                <option key={collection.id} value={collection.name}>{collection.name}</option>
+                                            ))}
+                                            <option value="Add New">+ Add New Collection</option>
+                                        </select>
+                                    )}
                                 </div>
-                            ) : (
-                                <div className="routine-title-container">
-                                    <h2 className="routine-title">{routineName}</h2>
-                                    <FaPencilAlt className="edit-icon" onClick={() => { setEditRoutineName(true); }} />
-                                </div>
-                            )}
-                            {collectionFormValue === "Add New" ? (
-                                <div className="new-collection-container">
-                                    <input 
-                                        className="new-collection-input" 
-                                        value={routineCollection} 
-                                        placeholder="Enter Collection Name..." 
-                                        onChange={(event) => {
-                                            setRoutineCollection(event.target.value);
-                                        }} 
-                                    />
-                                    <span className="icon-button confirm-button" onClick={confirmNewCollection}>
-                                        <FaCheck className="confirm-cancel-icons" />
-                                    </span>
-                                    <span className="icon-button cancel-button" onClick={() => { setCollectionFormValue(""); setRoutineCollection("") }}>
-                                        <FaTimes className="confirm-cancel-icons" />
-                                    </span>
-                                </div>
-                            ) : (
-                                <select value={collectionFormValue} onChange={(event) => { setCollectionFormValue(event.target.value); setChangesSaved(false); }}>
-                                    <option value="">No Collection</option>
-                                    {collections.map((collection) => (
-                                        <option key={collection.id} value={collection.name}>{collection.name}</option>
-                                    ))}
-                                    <option value="Add New">+ Add New Collection</option>
-                                </select>
-                            )}
-                        </div>
-                        <button className={`save-routine-button ${changesSaved ? "button-saved" : null}`} disabled={changesSaved} onClick={saveRoutine}>{changesSaved ? "Saved!" : "Save"}</button>
-                    </div>
+                                <button className={`save-routine-button ${changesSaved ? "button-saved" : null}`} disabled={changesSaved} onClick={saveRoutine}>{changesSaved ? "Saved!" : "Save"}</button>
+                            </div>
+                            </>
+                        ) : null}
                     
                     <FlopForm isOpen={isFlopFormOpen} onCancel={handleCloseFlopForm} onAddedSkill={handleFlopAdded}/>
 
