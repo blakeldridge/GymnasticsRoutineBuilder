@@ -17,7 +17,7 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
     const handleMouseLeave = () => setIsHovered(false); // Set hover state to false
 
     return (
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', height:'100%' }}>
             <Droppable key={index} droppableId={`routine-slot-${index}`} isDropDisabled={!!routine[index]}>
                 {(provided, snapshot) => (
                     <div
@@ -26,6 +26,8 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                         onMouseEnter={handleMouseEnter}  // Track mouse enter
                         onMouseLeave={handleMouseLeave}  // Track mouse leave
                         style={{
+                            height:'100%',
+                            width: '100%',
                             backgroundColor: routine[index]
                                 ? 'var(--surface-color)'
                                 : snapshot.isDraggingOver
@@ -43,6 +45,7 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                             color: 'var(--secondary-text-color)',
                             outline: isConnected || isNextConnected ? `2px solid ${connectionColor}` : 'none',
                             marginRight: isConnected && routine[index + 1] ? '-4px' : '0',
+                            position: 'relative',
                         }}
                     >
                         {routine[index] ? (
@@ -55,6 +58,8 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                                             {...provided.dragHandleProps}
                                             className="draggable-item"
                                             style={{
+                                                margin : 0,
+                                                height: '100%',
                                                 width: '100%',
                                                 position: 'relative',
                                                 padding: '16px',

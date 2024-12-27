@@ -458,57 +458,60 @@ const RoutineBuilder = ({ apparatus }) => {
                     
                     <FlopForm isOpen={isFlopFormOpen} onCancel={handleCloseFlopForm} onAddedSkill={handleFlopAdded}/>
 
-                    <div className="difficulty-block">
-                        {Object.entries(calculateDifficulty(routineSlots) || {}).map(([key, value], index) => {
-                            if (key === "Start Value") {
-                                return (
-                                    <div className="start-value-section" key={key}>
-                                        <p className="start-value">{parseFloat(value).toFixed(2)}</p>
-                                        <p className="start-value-label">SV</p>
-                                    </div>
-                                );
-                            } else {
-                                if ((key === "Penalty" || key === "Bonus") && value.value === 0) {
-                                    return;
-                                } else {
+                    <div className="routine-section">
+                        <div className="difficulty-block">
+                            {Object.entries(calculateDifficulty(routineSlots) || {}).map(([key, value], index) => {
+                                if (key === "Start Value") {
                                     return (
-                                        <div className={`difficulty-section`} key={key}>
-                                            <div className="difficulty-name-box">
-                                                <p className="difficulty-key">{key}</p>
-                                                <div class="difficulty-info-container">
-                                                    <button class="difficulty-info-button">i</button>
-                                                    <div class="difficulty-info-tooltip" dangerouslySetInnerHTML={{ __html: value.message }}>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="difficulty-value-box">
-                                                <p className="difficulty-value">{parseFloat(value.value).toFixed(2)}</p>
-                                            </div>
+                                        <div className="start-value-section" key={key}>
+                                            <p className="start-value">{parseFloat(value).toFixed(2)}</p>
+                                            <p className="start-value-label">SV</p>
                                         </div>
                                     );
+                                } else {
+                                    if ((key === "Penalty" || key === "Bonus") && value.value === 0) {
+                                        return;
+                                    } else {
+                                        return (
+                                            <div className={"difficulty-section"} key={key}>
+                                                <div className="difficulty-name-box">
+                                                    <p className="difficulty-key">{key}</p>
+                                                    <div class="difficulty-info-container">
+                                                        <button class="difficulty-info-button">i</button>
+                                                        <div class="difficulty-info-tooltip" dangerouslySetInnerHTML={{ __html: value.message }}>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="difficulty-value-box">
+                                                    <p className="difficulty-value">{parseFloat(value.value).toFixed(2)}</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    }
                                 }
-                            }
-                        })}
-                    </div>
+                            })}
+                        </div>
 
-                    <div className="skill-drop-container">
-                        {routineSlots.map((slot, index) => (
-                            <div className="skill-drop" key={index}>
-                                <p className="skill-drop-index">{index + 1}</p>
-                                <div className="skill-drop-placeholder">
-                                    <Placeholder
-                                        apparatus={apparatus}
-                                        routine={routineSlots}
-                                        skill={slot}
-                                        index={index}
-                                        key={index.toString()}
-                                        onRemove={removeSkillFromSlot}
-                                        onConnect={connectSkills}
-                                    />
+                        <div className="skill-drop-container">
+                            {routineSlots.map((slot, index) => (
+                                <div className="skill-drop" key={index}>
+                                    <p className="skill-drop-index">{index + 1}</p>
+                                    <div className="skill-drop-placeholder">
+                                        <Placeholder
+                                            apparatus={apparatus}
+                                            routine={routineSlots}
+                                            skill={slot}
+                                            index={index}
+                                            key={index.toString()}
+                                            onRemove={removeSkillFromSlot}
+                                            onConnect={connectSkills}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
+                
                 </div>
             </DragDropContext>
         </div>

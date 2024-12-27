@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { FaPlus } from 'react-icons/fa';
 import '../css/draggableSkill.css';
@@ -37,7 +37,6 @@ const DraggableSkill = ({ skill, index, disabled, onAddSkill }) => {
                     style={{
                         border: skill.isFlop ? "4px solid var(--accent-highlight-color)" : 0,
                         ...provided.draggableProps.style, // Maintain the styles from react-beautiful-dnd
-                        // Remove the duplicate spread and make sure to only use provided.draggableProps.style once
                     }}
                 >
                     <div className="circle">{(skill.apparatus !== "Vault" ? convertDifficultyToSkill(skill.difficulty) : skill.difficulty)}</div>
