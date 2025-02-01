@@ -20,20 +20,22 @@ yamma or jonaason into handstand upgrades value
 Vault : only take first vault as SV, ensure 2 separate group vaults
 - BUG when resetting filters, does not refilter properly
 - BUG flop 2 does not appear right away, need to refresh the feed when adding a flop
-- BUG collection does not apply when first saving
+- BUG, if already logged in, home page should send you where?
 
 STYLING:
-- any shortened terms should either be replaced with the full word, or be found with its full form eg forward finds fwd.
 - make friendly to all screen sizes (or most)
 - design logo
 - design home page
 - design login and sign up page
 - FEATURE loading animations when waiting to fetch info
-- reset filter button hover colour wrong
 - some names still too long (will keep enlarging the skill placeholders) : fix margins or padding of placeholders (size should not change)
 - comment all code
 - style adding collection in routine builder
-- drag and drop (text should disappear when hovering)
+- no collections made should be in the center of the boxe
+- when not logged in, log in and sign up button boring
+- when not logged in, should be an easy way to redirect to make a different routine / switch apparatus
+- should requirement be initally shown when no skills there ?
+- routine tab layout bugged
 
 WORKING ON:
 - BUG should be able to drag skill to another to switch
@@ -62,3 +64,8 @@ if old routine, have edit button next to routine name, dropdown menu for collect
 - BUG vault breakdown in profile not shown
 - BUG circles have changed (probably due to home page styling)
 - BUG drag and drop, should be able to drag back to skill list (to remove)
+- PARTIALLY any shortened terms should either be replaced with the full word, or be found with its full form eg forward finds fwd.
+- drag and drop (text should disappear when hovering)
+- reset filter button hover colour wrong
+- delete button should not show on not built routines
+- collections should have a scroll if too many made

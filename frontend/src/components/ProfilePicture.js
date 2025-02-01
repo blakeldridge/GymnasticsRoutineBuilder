@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import tempProfilePic from '../images/temp-profile.jpg';
+import tempProfilePic from '../images/temp-profile.png';
 import '../css/ProfilePicture.css'; // Include styles
 
 const ProfilePicture = ({ currentProfilePicture, onUpdate }) => {

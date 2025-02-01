@@ -1,53 +1,13 @@
 :root {
-  --background-color: #121212;
-  --surface-color: #1E1E1E;
-  --hover-color: #282828;
-  --primary-text-color: #E0E0E0;
-  --secondary-text-color: #B0B0B0;
+  --background-colour: #ECECEC;
+  --primary-colour: #DC143C;
+  --secondary-colour: #001F3F;
+  --text-colour: #222222;
 
-  /* Current Orange Highlight Colors */
-  /*
-  --primary-highlight-color: #FF8C00; 
-  --secondary-highlight-color: #FFA500;
-  --accent-highlight-color: #ffea70;
-  */
+  --primary-colour-hover: #bb0c2f;
+  --secondary-colour-hover: #00152b;
 
-  /* green Highlight Colors */
-  
-  /*
-  --primary-highlight-color: #00C853; 
-  --secondary-highlight-color: #00E676;
-  --accent-highlight-color: #B9F6CA;
-  */
+  --secondary-colour-low: rgba(0, 31, 63, 0.3);
 
-
-  /* Blue Highlight Colors */
-  
-  --primary-highlight-color: #2962FF;
-  --secondary-highlight-color: #448AFF;
-  --accent-highlight-color: #82B1FF;
-  
-
-  /* Purple Highlight Colors */
-  /*
-  --primary-highlight-color: #8E24AA;
-  --secondary-highlight-color: #BA68C8;
-  --accent-highlight-color: #E1BEE7;
-*/  
-
-  /* Red Highlight Colors */
-  /*
-  --primary-highlight-color: #D32F2F;
-  --secondary-highlight-color: #FF5252;
-  --accent-highlight-color: #FFCDD2;
-  */
-
-  /* Cancel Button Colors */
-  --cancel-background-color: #333333; /* A neutral dark color that contrasts with the surface */
-  --cancel-hover-color: #454545; /* A lighter version of the background for hover */
-
-  /* Disabled Colors */
-  --disabled-background-color: #3a3a3a; /* A lighter, more muted version of --hover-color */
-  --disabled-border-color: #6c6c6c; /* A lighter gray for borders */
-  --disabled-text-color: #7e7e7e; /* A muted color for text */
+  --panel-colour: #D5D5D5;
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { FaRedo } from 'react-icons/fa';
 import '../css/SkillFilterForm.css';
 
 const FilterForm = forwardRef(({ apparatus, onFiltered, onFiltersReset }, ref) => {
@@ -47,14 +48,32 @@ const FilterForm = forwardRef(({ apparatus, onFiltered, onFiltersReset }, ref) =
 
     return (
         <div className="filter-form">
-            {/* Reset button at the top left */}
-            <div className="reset-button-container">
-                <button onClick={resetFilters} className="reset-button">
-                    Reset Filters
-                </button>
+            <div className="filter-form-left-side">   
+                {/* Reset button at the top left */}
+                <div className="reset-button-container">
+                    <div className="reset-button" onClick={resetFilters}>
+                        <FaRedo />
+                        <p>Reset</p>
+                    </div>
+                </div>
+            </div>  
+            <div className="group-selector">  
+            <div className="sorting-bar">
+                <p className="sort-text">Group : </p>
+                <select value={group} onChange={(event) => setGroup(parseInt(event.target.value))} className="sort-skill-select">
+                    <option value="0">All Groups</option>
+                    <option value="1">Group I</option>
+                    <option value="2">Group II</option>
+                    <option value="3">Group III</option>
+                    <option value="4">Group IV</option>
+                    {apparatus === "Vault" && (
+                        <option value="5">Group V</option>
+                    )}
+                </select>
             </div>
-
+            </div>
             {/* Difficulty buttons */}
+            
             <div className="difficulty-container">
                 {Array.from({ length: 10 }, (_, index) => {
                     const difficulty = String.fromCharCode(65 + index);
@@ -65,12 +84,10 @@ const FilterForm = forwardRef(({ apparatus, onFiltered, onFiltersReset }, ref) =
                         <button
                             key={index}
                             onClick={() => handleValueSelected(floatDifficulty)}
+                            className="difficulty-value-button"
                             style={{
-                                backgroundColor: isSelected ? 'var(--primary-highlight-color)' : 'var(--disabled-border-color)',
-                                color: 'var(--primary-text-color)',
-                                padding: '10px',
-                                cursor: 'pointer',
-                                border: 'none'
+                                backgroundColor: isSelected ? 'var(--secondary-colour)' : 'var(--background-colour)',
+                                color: isSelected ? 'white' : 'var(--text-colour)',
                             }}
                         >
                             {difficulty}
@@ -78,18 +95,6 @@ const FilterForm = forwardRef(({ apparatus, onFiltered, onFiltersReset }, ref) =
                     );
                 })}
             </div>
-
-            {/* Group selector */}
-            <select value={group} onChange={(event) => setGroup(parseInt(event.target.value))} className="group-selector">
-                <option value="0">All Groups</option>
-                <option value="1">Group I</option>
-                <option value="2">Group II</option>
-                <option value="3">Group III</option>
-                <option value="4">Group IV</option>
-                {apparatus === "Vault" && (
-                    <option value="5">Group V</option>
-                )}
-            </select>
         </div>
     );
 });

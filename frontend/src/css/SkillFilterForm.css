@@ -1,46 +1,53 @@
 .filter-form {
     background-color: var(--hover-color);
     border-radius: 8px;
-    padding: 1em 2em;
-    margin: 0 1em 1em 1em;
+    padding: 16px;
     display:flex;
     justify-content: space-between;
 }
 
 .difficulty-container {
-    margin-left:30%;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 3px;
+    margin-right:10%;
+}
+
+.filter-form-left-side {
+    display: flex;
+    width: max-content;
+
 }
 
 .group-selector {
-    margin: auto 0;
-    margin-right: 3%;
-}
-
-.filter-form {
-    position: relative;
-    padding: 16px;
+    display:flex;
+    justify-content: center;
+    margin-right:10%;
 }
 
 .reset-button-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 8px;
+    display:flex;
+    margin-bottom: auto;
 }
 
 .reset-button {
-    background-color: var(--primary-highlight-color);
-    color: var(--primary-text-color);
-    padding: 8px 16px;
-    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: white;
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
-.reset-button:hover {
-    background-color: var(--primary-highlight-hover-color);
+.difficulty-value-button {
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: scale 0.3 ease;
+}
+
+.difficulty-value-button:hover {
+    transform: scale(1.05);
 }

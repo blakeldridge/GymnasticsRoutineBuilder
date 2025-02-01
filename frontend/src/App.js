@@ -2,14 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import HomePage from './components/HomePage';
-import RoutinePage from './components/RoutinePage';
-import DevPanel from './components/DevPanel';
+import ApparatusSelector from './components/ApparatusSelector';
 import RoutineBuilder from './components/RoutineBuilder';
 import ProfilePage from './components/ProfilePage';
 import Login from './components/LogIn';
 import Signup from './components/Signup';
 
-import FlopForm from './components/FlopForm';
+import texture from './images/bg-texture.png';
 
 import "./css/App.css";
 
@@ -18,7 +17,8 @@ const AppContent = () => {
     // && location.pathname !== '/log-in' && location.pathname !== '/sign-up'
 
     return (
-        <div>
+        <div className="app-background">
+            
             {location.pathname !== '/'? (
                 <Navbar />
             ) : null}
@@ -27,9 +27,7 @@ const AppContent = () => {
                 <Route path="/log-in" element={<Login />} />
                 <Route path="/sign-up" element={<Signup />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/apparatus-selector" element={<RoutinePage />} />
-                <Route path="/dev-panel" element={<DevPanel />} />
-                <Route path="/flop-form" element={<FlopForm />} />
+                <Route path="/apparatus-selector" element={<ApparatusSelector />} />
                 <Route path="/apparatus-selector/floor/:id?" element={<RoutineBuilder apparatus="Floor" />} />
                 <Route path="/apparatus-selector/pommel-horse/:id?" element={<RoutineBuilder apparatus="Pommel Horse" />} />
                 <Route path="/apparatus-selector/rings/:id?" element={<RoutineBuilder apparatus="Rings" />} />

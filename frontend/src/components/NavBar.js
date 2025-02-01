@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../css/navbar.css';
 import { jwtDecode } from 'jwt-decode';
 import logo from "../images/temp-logo.png";
-import profilePic from "../images/temp-profile.jpg";
+import profilePic from "../images/temp-profile.png";
 
 const Navbar = () => {
     const token = localStorage.getItem('userId');
@@ -68,18 +68,36 @@ const Navbar = () => {
         };
     }, [isDropdownOpen]);
 
+    const runTest = async () => {
+        try {
+            const response = await fetch(`/api/testscript`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                alert("successful run of test script")
+            } else {
+                alert('Failed to run test script.');
+            }
+        } catch (error) {
+            console.error('Error running test script:', error);
+            alert('Error running test script.');
+        }
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-logo">
-                <Link to="/">
-                    <img src={logo} alt="Logo" />
-                </Link>
             </div>
             <div>
                 {token ? (
                     <div className="navbar-links">
                         {/*<Link to="/dev-panel">Development Panel</Link>*/}
-                        <Link to="/apparatus-selector">Build Routine</Link>
+                        <Link to="/apparatus-selector">Code of Points</Link>
+                        <Link to="/apparatus-selector">{location.pathname.startsWith("/apparatus-selector/") ? "Switch Apparatus" : "Build Routine"}</Link>
                         <div className="profile-dropdown-container" ref={dropdownRef}>
                             <Link to="/profile" onClick={handleProfileClick}>
                                 <img src={profileImage || profilePic} className="profile-link" alt="Profile" />

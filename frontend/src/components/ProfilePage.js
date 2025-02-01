@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaPencilAlt, FaArrowLeft, FaTrash } from 'react-icons/fa';
+import { FaPencilAlt, FaArrowLeft, FaTrash, FaPlus, FaStar, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { jwtDecode } from 'jwt-decode';
 import ProfilePicture from './ProfilePicture';
 import RoutineTab from './RoutineTab';
 import '../css/ProfilePage.css';
+import CollectionTab from './CollectionTab';
 
 const ProfilePage = () => {
     const token = localStorage.getItem('userId');
@@ -15,9 +16,11 @@ const ProfilePage = () => {
     const [selectedCollectionId, setSelectedCollectionId] = useState(null);
     const [newCollectionName, setNewCollectionName] = useState('');
     const [collectionAddedTrigger, setCollectionAddedTrigger] = useState(false);
+    const [collectionSort, setCollectionSort] = useState(0);
+    const [routineSort, setRoutineSort] = useState(0);
     const [username, setUsername] = useState('');
     const [profileImage, setProfileImage] = useState(null);
-    const [activeTab, setActiveTab] = useState('active');
+    const [activeTab, setActiveTab] = useState('collection');
     const [editName, setEditName] = useState(false);
     const [editNameValue, setEditNameValue] = useState('');
     const [editCollectionName, setEditCollectionName] = useState(false);
@@ -40,7 +43,7 @@ const ProfilePage = () => {
     }, [collectionAddedTrigger]);
 
     useEffect(() => {
-        setRoutineData();
+        //setRoutineData();
     }, [allRoutines, activeRoutines])
 
     const setUserData = () => {
@@ -263,8 +266,8 @@ const ProfilePage = () => {
         }
     }
 
-    const getCollectionRoutines = () => {
-        const routines = allRoutines.filter(routine => routine.collectionId === selectedCollectionId);
+    const getCollectionRoutines = (id) => {
+        const routines = allRoutines.filter(routine => routine.collectionId === (id ? id : selectedCollectionId));
         return routines;
     };
 
@@ -291,6 +294,51 @@ const ProfilePage = () => {
         });
     };
 
+    const sortRoutineList = (event) => {
+        let updatedRoutines = [];
+
+        setRoutineSort(event.target.value);
+
+        const routines = [...allRoutines];
+
+        if (event.target.value === '0'){
+            updatedRoutines = routines.sort((routine1, routine2) => JSON.parse(routine1.difficulty)["Start Value"] - JSON.parse(routine2.difficulty)["Start Value"]);
+        } else if (event.target.value === '1'){
+            updatedRoutines = routines.sort((routine1, routine2) => JSON.parse(routine2.difficulty)["Start Value"] - JSON.parse(routine1.difficulty)["Start Value"]);
+        } else if (event.target.value === '2'){
+            updatedRoutines = routines.sort((routine1, routine2) => routine1.name.localeCompare(routine2.name));
+        } else {
+            updatedRoutines = routines.sort((routine1, routine2) => routine2.name.localeCompare(routine1.name));
+        }
+        setAllRoutines(updatedRoutines);
+    };
+
+    const sortCollectionList = (event) => {
+        let updatedCollections = [];
+
+        setCollectionSort(event.target.value);
+
+        const c = [...collections];
+
+        if (event.target.value === '0') {
+            updatedCollections = c.sort((collection1, collection2) => 
+                allRoutines.reduce((total, routine) => total + (routine.collectionId === collection1.id ? JSON.parse(routine.difficulty)["Start Value"] : 0), 0) -
+                allRoutines.reduce((total, routine) => total + (routine.collectionId === collection2.id ? JSON.parse(routine.difficulty)["Start Value"] : 0), 0)
+            );
+        } else if (event.target.value === '1') {
+            updatedCollections = c.sort((collection1, collection2) => 
+                allRoutines.reduce((total, routine) => total + (routine.collectionId === collection2.id ? JSON.parse(routine.difficulty)["Start Value"] : 0), 0) -
+                allRoutines.reduce((total, routine) => total + (routine.collectionId === collection1.id ? JSON.parse(routine.difficulty)["Start Value"] : 0), 0)
+            );
+        } else if (event.target.value === '2') {
+            updatedCollections = c.sort((routine1, routine2) => routine1.name.localeCompare(routine2.name));
+        } else {
+            updatedCollections = c.sort((routine1, routine2) => routine2.name.localeCompare(routine1.name))
+        }
+
+        setCollections(updatedCollections);
+    };
+
     return (
         <div className="profile-container">
             <div className="profile-section">
@@ -302,48 +350,64 @@ const ProfilePage = () => {
                         <button className="edit-cancel-btn" onClick={() => setEditName(false)}>Cancel</button>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', margin:"7px 0" }}>
+                    <div style={{ display: 'flex', alignItems: 'center', margin:"7px 0", color: "white" }}>
                         <h2>{username}</h2>
                         <FaPencilAlt className="edit-icon" onClick={() => { setEditName(true); setEditNameValue(username); }} />
                     </div>
                 )}
                 <div className="stats-box">
-                    <div className="stat">
-                        <p>{calculateTotalStartValue(activeRoutines)}</p>
-                        <p>Active Routine SV</p>
+                    <div className="stat-vertical">
+                        <p className="stat-vertical-title">Routines Made : </p>
+                        <p className="stat-vertical-value">{allRoutines.length}</p>
                     </div>
-                    <div className="stat">
-                        <p>{allRoutines.length}</p>
-                        <p>Routines Made</p>
-                    </div>
-                    <div className="stat">
-                        <p>{collections.length}</p>
-                        <p>Collections Made</p>
+                    <div className="stat-vertical">
+                        <p className="stat-vertical-title">Collections Made : </p>
+                        <p className="stat-vertical-value">{collections.length}</p>
                     </div>
                 </div>
-                <Link to="/apparatus-selector">
-                    <button className="build-routine-button">Build a Routine</button>
-                </Link>
+                <div className="stats-box-2">
+                    <div className="stat-horizontal">
+                        <p className="stat-horizontal-title">Highest Start Value : </p>
+                        <p className="stat-horizontal-value">{(0.00).toFixed(2)}</p>
+                    </div>
+                    <div className="stat-horizontal">
+                        <p className="stat-horizontal-title">Highest Routine : </p>
+                        <p className="stat-horizontal-value">{allRoutines.length === 0 ? 0 : allRoutines.reduce((max, routine) => {
+                                const difficultyValue = JSON.parse(routine.difficulty)["Start Value"];
+                                return difficultyValue > max ? difficultyValue : max;
+                            }, 0).toFixed(2)}</p>
+                    </div>
+                </div>
+
+                <div className="profile-options-container">
+                    <div className="profile-option">
+                        <FaStar />
+                        <p>Premium</p>
+                    </div>
+                    <div className="profile-option">
+                        <FaCog />
+                        <p>Settings</p>
+                    </div>
+                    <div className="profile-option">
+                        <FaSignOutAlt />
+                        <p>Log Out</p>
+                    </div>
+                </div>
+
             </div>
             <div className="routines-section">
                 <div className="tab-container">
                     <div
-                        className={`tab ${activeTab === 'active' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('active')}
+                        className={`tab ${activeTab === 'collection' ? 'active' : ''}`}
+                        onClick={() => handleTabClick('collection')}
                     >
-                        Active Routines
+                        Collections
                     </div>
                     <div
                         className={`tab ${activeTab === 'all' ? 'active' : ''}`}
                         onClick={() => handleTabClick('all')}
                     >
                         All Routines
-                    </div>
-                    <div
-                        className={`tab ${activeTab === 'collection' ? 'active' : ''}`}
-                        onClick={() => handleTabClick('collection')}
-                    >
-                        Collections
                     </div>
                 </div>
                 {activeTab === 'active' && (
@@ -354,41 +418,59 @@ const ProfilePage = () => {
                     </div>
                 )}
                 {activeTab === 'all' && (
-                    <div className={`routine-tab ${activeTab === 'all' ? 'active' : ''}`}>
-                    {allRoutines.length === 0 ? (
-                        <div className="empty-state">
-                            <p>You have no Routines</p>
-                            <Link to="/apparatus-selector">
-                                <button className="build-routine-button">Build a Routine</button>
-                            </Link>
+                    <div className="routine-tab-container">
+                        <div className="routine-tab-header">
+                            <button className="build-routine-button" onClick={() => navigate("/apparatus-selector/")}>Build a Routine</button>
+                            <div className="sorting-bar">
+                                <p className="sort-text">Sort By : </p>
+                                <select value={routineSort} onChange={sortRoutineList} className="sort-skill-select">
+                                    <option value="0">Difficulty: low to high</option>
+                                    <option value="1">Difficulty: high to low</option>
+                                    <option value="2">Alphabetical: a-z</option>
+                                    <option value="3">Alphabetical: z-a</option>
+                                </select>
+                            </div>
                         </div>
-                    ) : (
-                        allRoutines.map(routine => (
-                            <RoutineTab key={routine.id} routine={routine} collectionName={collections.find(collection => collection.id === routine.collectionId) ? collections.find(collection => collection.id === routine.collectionId).name : null} setActive={status => handleSetActiveRoutine(routine, status)} onDelete={handleDeleteRoutine} />
-                        ))
-                    )}
-                   </div>             
+                        <div className={`routine-tab ${activeTab === 'all' ? 'active' : ''}`}>
+                            {allRoutines.length === 0 ? (
+                                <div className="empty-state">
+                                    <p>You have no Routines</p>
+                                    <Link to="/apparatus-selector">
+                                        <button className="build-routine-button">Build a Routine</button>
+                                    </Link>
+                                </div>
+                            ) : (
+                                allRoutines.map(routine => (
+                                    <RoutineTab key={routine.id} routine={routine} collectionName={collections.find(collection => collection.id === routine.collectionId) ? collections.find(collection => collection.id === routine.collectionId).name : null} setActive={status => handleSetActiveRoutine(routine, status)} onDelete={handleDeleteRoutine} />
+                                ))
+                            )}
+                    </div>    
+                   </div>         
                 )}
                 {activeTab === 'collection' && (
                     <div className="collection-container">
                         {selectedCollectionId ? (
                             <div className="collection-routine-list">
-                                <FaArrowLeft className="back-icon" onClick={() => setSelectedCollectionId(null)} />
-                                <FaTrash className="delete-icon" onClick={deleteCollection} />
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1em' }}>
-                                    {editCollectionName ? (
-                                        <div className='edit-text-container'>
-                                            <input className="edit-input" value={editCollectionNameValue} onChange={(event) => setEditCollectionNameValue(event.target.value)} />
-                                            <button className="edit-submit-btn" onClick={handleCollectionNameUpdated}>Submit</button>
-                                            <button className="edit-cancel-btn" onClick={() => setEditCollectionName(false)}>Cancel</button>
-                                        </div>
-                                    ) : (
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <h2>{collections.find(collection => collection.id === selectedCollectionId).name}</h2>
-                                            <FaPencilAlt className="edit-icon" onClick={() => { setEditCollectionName(true); setEditCollectionNameValue(collections.find(collection => collection.id === selectedCollectionId).name); }} />
-                                        </div>
-                                    )}
-                                    <h2>Total SV: {calculateTotalStartValue(getCollectionRoutines())}</h2>
+                                <div className="collection-routine-header">
+                                    <div className="collection-routine-header-left">
+                                        <FaArrowLeft className="back-icon" onClick={() => setSelectedCollectionId(null)} />
+                                        {editCollectionName ? (
+                                            <div className='edit-text-container'>
+                                                <input className="edit-input" value={editCollectionNameValue} onChange={(event) => setEditCollectionNameValue(event.target.value)} />
+                                                <button className="edit-submit-btn" onClick={handleCollectionNameUpdated}>Submit</button>
+                                                <button className="edit-cancel-btn" onClick={() => setEditCollectionName(false)}>Cancel</button>
+                                            </div>
+                                        ) : (
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <p>{collections.find(collection => collection.id === selectedCollectionId).name}</p>
+                                                <FaPencilAlt className="edit-icon" onClick={() => { setEditCollectionName(true); setEditCollectionNameValue(collections.find(collection => collection.id === selectedCollectionId).name); }} />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="collection-routine-header-right">
+                                        <p>{calculateTotalStartValue(getCollectionRoutines())} SV</p>
+                                        <FaTrash className="delete-icon" onClick={deleteCollection} />
+                                    </div>
                                 </div>
                                 {getCollectionRoutines().length === 0 ? (
                                     <div className="empty-state">
@@ -398,7 +480,7 @@ const ProfilePage = () => {
                                         </Link>
                                     </div>
                                 ) : (
-                                    <div className="routine-tab">
+                                    <div style={{"height":"100%"}} className="routine-tab">
                                         {getRoutineSet(getCollectionRoutines()).map(routine => (
                                             <RoutineTab key={routine.id} routine={routine} setActive={status => handleSetActiveRoutine(routine, status)} onDelete={handleDeleteRoutine} />
                                         ))}
@@ -406,9 +488,8 @@ const ProfilePage = () => {
                                 )}
                             </div>                        
                         ): (
-                            <div>
+                            <div className="collection-list-container">
                                 <div className="header-container">
-                                    <h2 className="title">Select Your Collection:</h2>
                                     <div className="add-collection-container">
                                         <input
                                             className="add-collection-input"
@@ -416,7 +497,16 @@ const ProfilePage = () => {
                                             placeholder='Add new collection...'
                                             onChange={(event) => setNewCollectionName(event.target.value)}
                                         />
-                                        <button className="edit-submit-btn" onClick={handleCollectionAdded}>Submit</button>
+                                        <button className="edit-submit-btn" onClick={handleCollectionAdded}><FaPlus /></button>
+                                    </div>
+                                    <div className="sorting-bar">
+                                        <p className="sort-text">Sort By : </p>
+                                        <select value={collectionSort} onChange={sortCollectionList} className="sort-skill-select">
+                                            <option value="0">Difficulty: low to high</option>
+                                            <option value="1">Difficulty: high to low</option>
+                                            <option value="2">Alphabetical: a-z</option>
+                                            <option value="3">Alphabetical: z-a</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className="collection-list">
@@ -424,13 +514,7 @@ const ProfilePage = () => {
                                         <p className="empty-message">You have no Collections</p>
                                     ) : (
                                         collections.map((collection) => (
-                                            <div
-                                                key={collection.id}
-                                                className="collection-item"
-                                                onClick={() => handleCollectionSelected(collection.id)}
-                                            >
-                                                {collection.name}
-                                            </div>
+                                            <CollectionTab id={collection.id} name={collection.name} routines={getRoutineSet(getCollectionRoutines(collection.id))} onClick={() => handleCollectionSelected(collection.id)}/>
                                         ))
                                     )}
                                 </div>

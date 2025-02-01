@@ -1,3 +1,15 @@
+function getExecutionText(skills, execution) {
+    return `Total of ${skills} skills, resulting in an execution start value of : ${execution.toFixed(2)}`;
+}
+
+function getDifficultyText() {
+    return "Total score of all elements added together.\nA = 0.1, B = 0.2, C = 0.3, D = 0.4, E = 0.5, F = 0.6, ...";
+}
+
+function getRequirementText(g1, g2, g3, g4) {
+    return `Element Group I   : ${g1.toFixed(1)}\tElement Group II  : ${g2.toFixed(1)}\tElement Group III : ${g3.toFixed(1)}\tElement Group IV  : ${g4.toFixed(1)}`;
+}
+
 export function calculateDifficulty(routine) {
     routine = routine.filter(item => item !== null && item !== undefined);
     if (routine.length !== 0){
@@ -25,7 +37,7 @@ export function calculateDifficulty(routine) {
             },
             "Difficulty": {
                 "value": 0.0,
-                "message": `Total value of all skills combined.`
+                "message": getDifficultyText(),
             }
         };
     }
@@ -87,22 +99,22 @@ function calculateFloor(routine){
     let bonus_message = "";
     for (let i = 0; i < bonus_breakdown.length; i++) {
         let b = bonus_breakdown[i];
-        bonus_message += `Skills ${b[0] + 1} and ${b[1] + 1}: ${b[2]}<br>`;
+        bonus_message += `Skills ${b[0] + 1} and ${b[1] + 1}: ${b[2]}\n`;
     }
 
     return {
         "Start Value": execution + difficulty + requirement + bonus,
         "Execution": {
             "value": execution,
-            "message": `Number of skills: ${routine.length}.<br>Execution: ${execution}`
+            "message": getExecutionText(routine.length, execution),
         },
         "Difficulty": {
             "value": difficulty,
-            "message": `Total value of all skills combined.`
+            "message": getDifficultyText(),
         },
         "Requirement": {
             "value": requirement,
-            "message": `EG I: ${requirement_breakdown[0]}<br>EG II: ${requirement_breakdown[1]}<br>EG III: ${requirement_breakdown[2]}<br>EG IV: ${requirement_breakdown[3]}`
+            "message": getRequirementText(requirement_breakdown[0], requirement_breakdown[1], requirement_breakdown[2], requirement_breakdown[3]),
         },
         "Bonus": {
             "value": bonus,
@@ -122,7 +134,7 @@ function calculateFloor(routine){
 function calculatePommel(routine) {
     let difficulty = 0.0;
     let requirement = 0.0
-    let requirement_breakdown = [];
+    let requirement_breakdown = [0, 0, 0, 0];
     let execution = calculateShortMove(routine);
 
     // calculate total difficulty of all skills
@@ -159,15 +171,15 @@ function calculatePommel(routine) {
         "Start Value": execution + difficulty + requirement,
         "Execution": {
             "value": execution,
-            "message": `Number of skills: ${routine.length}.<br>Execution: ${execution}`
+            "message": getExecutionText(routine.length, execution),
         },
         "Difficulty": {
             "value": difficulty,
-            "message": `Total value of all skills combined.`
+            "message": getDifficultyText(),
         },
         "Requirement": {
             "value": requirement,
-            "message": `EG I: ${requirement_breakdown[0]}<br>EG II: ${requirement_breakdown[1]}<br>EG III: ${requirement_breakdown[2]}<br>EG IV: ${requirement_breakdown[3]}`
+            "message": getRequirementText(requirement_breakdown[0], requirement_breakdown[1], requirement_breakdown[2], requirement_breakdown[3]),
         }
     };
 }
@@ -175,7 +187,7 @@ function calculatePommel(routine) {
 function calculateRings(routine) {
     let difficulty = 0.0;
     let requirement = 0.0;
-    let requirement_breakdown = [];
+    let requirement_breakdown = [0, 0, 0, 0];
     let execution = calculateShortMove(routine);
     let penalty = 0.3;
 
@@ -216,15 +228,15 @@ function calculateRings(routine) {
         "Start Value": execution + difficulty + requirement,
         "Execution": {
             "value": execution,
-            "message": `Number of skills: ${routine.length}.<br>Execution: ${execution}`
+            "message": getExecutionText(routine.length, execution),
         },
         "Difficulty": {
             "value": difficulty,
-            "message": `Total value of all skills combined.`
+            "message": getDifficultyText(),
         },
         "Requirement": {
             "value": requirement,
-            "message": `EG I: ${requirement_breakdown[0]}<br>EG II: ${requirement_breakdown[1]}<br>EG III: ${requirement_breakdown[2]}<br>EG IV: ${requirement_breakdown[3]}`
+            "message": getRequirementText(requirement_breakdown[0], requirement_breakdown[1], requirement_breakdown[2], requirement_breakdown[3]),
         },
         /*"Penalty": {
             "value": penalty,
@@ -241,7 +253,7 @@ function calculateVault(routine){
         difficulty = (routine[0].difficulty + routine[1].difficulty) / 2
     }
     return {
-        "Start Value": (routine[0] && routine[1] ? 10.0 + (routine[0].difficulty + routine[1].difficulty) / 2 : 0),
+        "Start Value": (routine[0] ? 10.0 + routine[0].difficulty : routine[1] ? 10.0 + routine[1].difficulty : 0),
         "Vault 1": {"value": (routine[0] ? 10.0 + routine[0].difficulty : 0), "message":"Difficulty of the 1st Vault"},
         "Vault 2": {"value":(routine[1] ? 10.0 + routine[1].difficulty : 0),"message":"Difficulty of the 2nd Vault"}
     };
@@ -250,7 +262,7 @@ function calculateVault(routine){
 function calculatePbar(routine) {
     let difficulty = 0.0;
     let requirement = 0.0
-    let requirement_breakdown = [];
+    let requirement_breakdown = [0, 0, 0, 0];
     let execution = calculateShortMove(routine);
 
     // calculate total difficulty of all skills
@@ -287,15 +299,15 @@ function calculatePbar(routine) {
         "Start Value": execution + difficulty + requirement,
         "Execution": {
             "value": execution,
-            "message": `Number of skills: ${routine.length}.<br>Execution: ${execution}`
+            "message": getExecutionText(routine.length, execution),
         },
         "Difficulty": {
             "value": difficulty,
-            "message": `Total value of all skills combined.`
+            "message": getDifficultyText(),
         },
         "Requirement": {
             "value": requirement,
-            "message": `EG I: ${requirement_breakdown[0]}<br>EG II: ${requirement_breakdown[1]}<br>EG III: ${requirement_breakdown[2]}<br>EG IV: ${requirement_breakdown[3]}`
+            "message": getRequirementText(requirement_breakdown[0], requirement_breakdown[1], requirement_breakdown[2], requirement_breakdown[3]),
         }
     };
 }
@@ -358,22 +370,22 @@ function calculateHbar(routine) {
     let bonus_message = "";
     for (let i = 0; i < bonus_breakdown.length; i++) {
         let b = bonus_breakdown[i];
-        bonus_message += `Skills ${b[0] + 1} and ${b[1] + 1}: ${b[2]}<br>`;
+        bonus_message += `Skills ${b[0] + 1} and ${b[1] + 1}: ${b[2]}\n`;
     }
 
     return {
         "Start Value": execution + difficulty + requirement + bonus,
         "Execution": {
             "value": execution,
-            "message": `Number of skills: ${routine.length}.<br>Execution: ${execution}`
+            "message": getExecutionText(routine.length, execution),
         },
         "Difficulty": {
             "value": difficulty,
-            "message": `Total value of all skills combined.`
+            "message": getDifficultyText(),
         },
         "Requirement": {
             "value": requirement,
-            "message": `EG I: ${requirement_breakdown[0]}<br>EG II: ${requirement_breakdown[1]}<br>EG III: ${requirement_breakdown[2]}<br>EG IV: ${requirement_breakdown[3]}`
+            "message": getRequirementText(requirement_breakdown[0], requirement_breakdown[1], requirement_breakdown[2], requirement_breakdown[3]),
         },
         "Bonus": {
             "value": bonus,

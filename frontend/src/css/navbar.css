@@ -10,8 +10,8 @@
     top: 0; /* Aligns it at the top */
     left: 0;
     right: 0;
-    background-color: var(--background-color); /* Set a background color */
-    z-index: 1000; /* Ensures it stays on top of other content */
+    z-index: 200; /* Ensures it stays on top of other content */
+    background-color: rgb(0, 0, 0, 0.0);
 }
 
 .navbar-logo img {
@@ -26,15 +26,16 @@
 }
 
 .navbar-links a {
-    color: var(--primary-text-color);
+    color: var(--secondary-colour);
     text-decoration: none;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 50;
     display: flex;
     align-items: center;
 }
 
 .navbar-links a:hover {
-    color: var(--secondary-text-color);
+    color: var(--secondary-colour-hover);
 }
 
 .profile-link {

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { FaPlus } from 'react-icons/fa';
+
+import plus_icon from "../images/Plus.png";
 import '../css/RoutinePlaceholder.css';
 
 function convertDifficultyToSkill(difficulty) {
@@ -7,8 +10,26 @@ function convertDifficultyToSkill(difficulty) {
     return String.fromCharCode(65 + value - 1);
 }
 
-const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
+function convertNumberToRoman(number) {
+    switch (number) {
+        case 1:
+            return "I";
+        case 2:
+            return "II";
+        case 3:
+            return "III";
+        case 4:
+            return "IV";
+        case 5:
+            return "V";
+        default:
+            return "";
+    }
+}
+
+const Placeholder = ({ routine, apparatus, index, onRemove, onConnect, onClick}) => {
     const [isHovered, setIsHovered] = useState(false); // State to track hover
+    const [isMousePressed, setIsMousePressed] = useState(false); // State to track mouse press (down/up)
     const isConnected = routine[index]?.connection;
     const isNextConnected = routine[index - 1]?.connection;
     const connectionColor = routine[index]?.connectionColor || routine[index - 1]?.connectionColor || 'green';
@@ -17,35 +38,27 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
     const handleMouseLeave = () => setIsHovered(false); // Set hover state to false
 
     return (
-        <div style={{ position: 'relative', height:'100%' }}>
+        <div onClick={routine[index] ? null : () => onClick(index)} style={{ position: 'relative', height:'100%' }}>
             <Droppable key={index} droppableId={`routine-slot-${index}`} isDropDisabled={!!routine[index]}>
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
-                        {...provided.droppableProps}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                         onMouseEnter={handleMouseEnter}  // Track mouse enter
                         onMouseLeave={handleMouseLeave}  // Track mouse leave
+                        className={`routine-slot-droppable ${snapshot.isDraggingOver ? 'hovering' : 'not-hovering'}` }
                         style={{
-                            height:'100%',
-                            width: '100%',
                             backgroundColor: routine[index]
                                 ? 'var(--surface-color)'
                                 : snapshot.isDraggingOver
                                 ? 'var(--hover-color)'
                                 : 'var(--hover-color)',
-                            border: snapshot.isDraggingOver
-                                ? '2px solid var(--hover-color)'
-                                : '1px dashed var(--surface-color)',
-                            borderRadius: '8px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            boxShadow: routine[index] ? '0 4px 8px rgba(0, 0, 0, 0.1)' : 'none',
-                            transition: 'var(--background-color) 0.3s ease, border 0.3s ease',
-                            color: 'var(--secondary-text-color)',
+                            
                             outline: isConnected || isNextConnected ? `2px solid ${connectionColor}` : 'none',
                             marginRight: isConnected && routine[index + 1] ? '-4px' : '0',
-                            position: 'relative',
+                            transform: routine[index] ? "none" : (isHovered ? 'scale(1.05)' : 'none'),
+                            transition: 'transform 0.2s ease', // Smooth transition
                         }}
                     >
                         {routine[index] ? (
@@ -56,26 +69,24 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            className="draggable-item"
+                                            className="draggable-item-routine"
                                             style={{
-                                                margin : 0,
-                                                height: '100%',
-                                                width: '100%',
-                                                position: 'relative',
-                                                padding: '16px',
-                                                backgroundColor: 'var(--hover-color)',
-                                                border: '1px solid var(--surface-color)',
-                                                borderRadius: '4px',
-                                                textAlign: 'center',
                                                 ...provided.draggableProps.style,
                                             }}
                                         >
-                                            <div className="circle">
-                                                {routine[index].apparatus !== 'Vault'
-                                                    ? convertDifficultyToSkill(routine[index].difficulty)
-                                                    : routine[index].difficulty}
+                                            <div className="skill-name">
+                                                <p>{routine[index].name}</p>
                                             </div>
-                                            <p style={{ margin: 0, flex: 1, textAlign: 'center' }}>{routine[index].name}</p>
+                                            <div className="skill-data">
+                                                <div className="skill-difficulty">
+                                                    <p>{routine[index].apparatus !== 'Vault'
+                                                    ? convertDifficultyToSkill(routine[index].difficulty)
+                                                    : routine[index].difficulty}</p>
+                                                </div>
+                                                <div className="skill-group">
+                                                    <p>Group {convertNumberToRoman(routine[index].group)}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     )}
                                 </Draggable>
@@ -104,7 +115,7 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                                 )}
 
                                 {(apparatus === 'Floor' || apparatus === 'High Bar') &&
-                                routine[index + 1] ? ( // Only show + button when hovering
+                                routine[index + 1] && isHovered ? ( // Only show + button when hovering
                                     <button
                                         onClick={() => onConnect(index)}
                                         style={{
@@ -117,10 +128,12 @@ const Placeholder = ({ routine, apparatus, index, onRemove, onConnect }) => {
                                 ) : null}
                             </>
                         ) : (
-                            <p>Place Skill Here</p>
+                            <img src={plus_icon} className="add-skill-plus" />
                         )}
 
-                        {provided.placeholder}
+                        <div style={{display:"none"}}>
+                            {provided.placeholder}
+                        </div>
                     </div>
                 )}
             </Droppable>

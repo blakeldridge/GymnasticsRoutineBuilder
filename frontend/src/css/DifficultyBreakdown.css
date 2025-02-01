@@ -1,0 +1,129 @@
+.difficulty-information {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.difficulty-message {
+    color : var(--primary-text-color);
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.difficulty-block {
+    position: relative;
+    justify-content: end;
+    display: flex;
+    flex-direction: row; /* Stack elements vertically */
+    align-items: center; /* Align everything to the right */
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.difficulty-block.logged-in {
+    left: static;
+}
+
+.difficulty-block.logged-out {
+    left: 50%;
+}
+
+/* Downward Panel */
+.difficulty-panel {
+    position: absolute; /* Place it relative to .difficulty-block */
+    top: 100%; /* Align it just below the .difficulty-block */
+    width: 100%; /* Make it the full width of the parent */
+    background-color: var(--surface-color); /* Give it a solid background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    z-index: 300; /* Ensure it's above other content */
+    max-height: 0; /* Initial state: hidden */
+    overflow-y: hidden; /* Hide content when collapsed */
+    transition: max-height 0.3s ease-in-out; /* Smooth expand/collapse */
+}
+
+.difficulty-panel.expanded {
+    max-height: 500px; /* Adjust based on expected content height */
+}
+
+.visible-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.difficulty-dropdown {
+    display:flex;
+    justify-content: center;;
+}
+
+.dropdown-toggle {
+    position: absolute;
+    background-color: var(--primary-colour);
+    color: white;
+    border: none;
+    padding: 2px 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 301; /* Ensure it is above the difficulty panel */
+}
+
+.dropdown-toggle:hover {
+    background-color: var(--primary-colour-hover);
+}
+
+/* Individual Difficulty Section Styling */
+.difficulty-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.difficulty-key {
+    font-size: 2.0em;
+    color: var(--primary-text-color);
+    margin: 0;
+    padding: 0 5px;
+}
+
+/* Difficulty value styling */
+.difficulty-value {
+    font-size: 2.0em; /* Adjust font size if too large */
+    text-align: center;
+    color: var(--primary-text-color);
+    margin: 0; /* Remove default margin */
+    line-height: 1; /* Line height matches the font size */
+}
+
+/* Start Value Section Animation */
+.start-value-section {
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: baseline;
+    margin: 0;
+    padding: 0;
+    z-index: 301; /* Ensure it stays above other elements */
+}
+
+.start-value-container {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.start-value {
+    font-size: 108px; /* Adjust the font size */
+    font-weight: 100;
+    margin: 0;
+    line-height: 1; /* Ensure the text height matches the line height */
+    background: linear-gradient(45deg, #DC143C 0% 64%, #FF4067 );
+    -webkit-background-clip: text;  /* Use the gradient as a clip for the text */
+    background-clip: text;  /* Non-webkit browsers */
+    color: transparent;  /* Make the text color transparent to show the gradient */
+}
+
+.start-value-label {
+    margin: 0;
+    font-size: 2.5em; /* Smaller font size for the label */
+    color: var(--secondary-text-color);
+    line-height: 1; /* Ensure the text height matches the line height */
+}

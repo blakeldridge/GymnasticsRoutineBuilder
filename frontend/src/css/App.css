@@ -1,4 +1,17 @@
 body {
-    background-color: var(--background-color);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     overflow-y : auto;
+    font-family : 'Oswald', sans-serif;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.app-background {
+    background-image: url("../images/bg-texture.png");
+    background-color: var(--background-color);
 }

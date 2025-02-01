@@ -25,9 +25,25 @@ function convertNumberToRoman(number) {
     }
 }
 
-const DraggableSkill = ({ skill, index, disabled, onAddSkill }) => {
+const DraggableSkill = ({ skill, index, disabled }) => {
     return (
-        <Draggable key={skill.id} draggableId={skill.name} index={index} isDragDisabled={disabled}>
+        <div>
+            <div
+                className={`draggable-item ${disabled ? 'disabled' : ''}`} // Apply the disabled class conditionally
+                style={{
+                    border: skill.isFlop ? "4px solid var(--accent-highlight-color)" : 0,
+                }}
+            >
+                <div className="draggable-difficulty">
+                    <p>{(skill.apparatus !== "Vault" ? convertDifficultyToSkill(skill.difficulty) : skill.difficulty)}</p>
+                </div>
+                <p className="draggable-name">{skill.name}</p>
+                <div className="draggable-group">
+                    <p style={{ "margin-right":"5%"}}>Group {convertNumberToRoman(skill.group)}</p>
+                </div>
+            </div>
+        </div>
+        /*<Draggable key={skill.id} draggableId={skill.name} index={index} isDragDisabled={disabled}>
             {(provided) => (
                 <div
                     ref={provided.innerRef}
@@ -39,16 +55,16 @@ const DraggableSkill = ({ skill, index, disabled, onAddSkill }) => {
                         ...provided.draggableProps.style, // Maintain the styles from react-beautiful-dnd
                     }}
                 >
-                    <div className="circle">{(skill.apparatus !== "Vault" ? convertDifficultyToSkill(skill.difficulty) : skill.difficulty)}</div>
-                    <p style={{ margin: 0, flex: 1, textAlign: 'center' }}>{skill.name}</p>
-                    <p style={{ "margin-right":"5%"}}>EG {convertNumberToRoman(skill.group)}</p>
-                    <FaPlus
-                        onClick={!disabled ? () => onAddSkill(skill) : undefined}  // Disable click if disabled
-                        className={disabled ? 'add-skill-button-disabled' : 'add-skill-button'}  // Add disabled class if disabled
-                    />
+                    <div className="draggable-difficulty">
+                        <p>{(skill.apparatus !== "Vault" ? convertDifficultyToSkill(skill.difficulty) : skill.difficulty)}</p>
+                    </div>
+                    <p className="draggable-name">{skill.name}</p>
+                    <div className="draggable-group">
+                        <p style={{ "margin-right":"5%"}}>Group {convertNumberToRoman(skill.group)}</p>
+                    </div>
                 </div>
             )}
-        </Draggable>
+        </Draggable>*/
     );
 };
 

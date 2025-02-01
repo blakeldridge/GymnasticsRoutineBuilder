@@ -13,3 +13,85 @@
     align-items: center;
     cursor: pointer;
 }
+
+.routine-slot-droppable {
+    height:100%;
+    width: 100%;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #E0E0E03C 28%, #C7C7C73C 100%);
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.2);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.routine-slot-droppable.hovering {
+    border : 2px solid var(--primary-highlight-color);
+}
+
+.draggable-item-routine {
+    margin : 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    position: relative;
+    background: radial-gradient(circle, #E0E0E03C 28%, #C7C7C73C 100%);
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.skill-name {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    flex: 1;
+    height: 70%;
+}
+
+.skill-data {
+    display: flex;
+    flex-direction: row;
+    height: 30%;
+    width: 100%;
+    align-items: center;;
+}
+
+.skill-difficulty {
+    flex: 1;
+    height: 100%;
+    width: 25%;
+    display: flex;               
+    justify-content: center;     
+    align-items: center;   
+    text-align: center;
+    color: white;
+    font-style: bold;
+    font-size: 26px;
+    background-color: var(--primary-colour);
+    border-bottom-left-radius: 8px;
+}
+
+.skill-group {
+    flex: 2;
+    width: 75%;
+    height: 100%;
+    display: flex;               
+    justify-content: center;     
+    align-items: center;         
+    text-align: center; 
+    color: white;
+    font-style: bold;
+    font-size: 26px;
+    background: linear-gradient(to bottom, #001F3FBF, #001021CC);
+    border-bottom-right-radius: 8px;
+}
+
+.add-skill-plus {
+    transform: scale(0.7);
+    color: #222222A3
+}

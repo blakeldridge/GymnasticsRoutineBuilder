@@ -4,27 +4,29 @@
     gap: 20px;
     width: 100vw;
     height: 90vh;
-    padding: 20px;
     box-sizing: border-box;
-    margin-top: 60px;
+    margin: auto;
+    margin-top:60px;
+    padding: 5vh 5vw 5vh 5vw;
+    background-color: var(--secondary-colour-low);
 }
 
 .apparatus-button {
     width: 100%;
     height: 100%;
     font-size: 4em;
-    padding: 20px;
-    background-color: var(--surface-color);
-    color: var(--primary-text-color);
+    font-family: "Oswald", sans-serif;
+    color: var(--text-colour);
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background: radial-gradient(circle, #E0E0E03C 28%, #C7C7C73C 100%);
     transition: background-color 0.3s ease;
 }
 
 .apparatus-button:hover {
-    background-color: var(--hover-color);
+    transform: scale(1.05);
 }
 
 @media (max-width: 900px) {

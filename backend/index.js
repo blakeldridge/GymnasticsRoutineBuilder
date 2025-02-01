@@ -10,6 +10,8 @@ const GymnasticsSkill = require('./models/GymnasticsSkill');
 const Collection = require('./models/Collection.js');
 require('dotenv').config();
 
+const { Op } = require('sequelize');
+
 const app = express();
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -37,6 +39,41 @@ const upload = multer({ storage: storage });
 
 
 // Define your routes here
+
+app.post('/api/testscript', async (req, res) => {
+    const subStrings = ['hdst.', 'strad.', 'str.', 'sup.', 'bwd.', 'fwd.', 'dbl.', '½'];
+    const replacement = ['handstand', 'straddle', 'straight', 'support', 'backward', 'forward', 'double', '1/2'];
+    const whereConditions = subStrings.map(substring => ({
+        [Op.like] : `%${substring}%`
+    }));
+    try {
+        const skillNames = await GymnasticsSkill.findAll({where : {
+            name : {
+                [Op.or] : whereConditions
+            }
+        }})
+
+        for (const skill of skillNames) {
+            let updatedName = skill.name;
+
+            for (let i = 0; i < subStrings.length; i++) {
+                updatedName = updatedName.replace(`${subStrings[i]}`, replacement[i]);          
+            }
+    
+            if (updatedName != skill.name) {
+                skill.name = updatedName;
+                await skill.save();
+                console.log(`Updated skill name: ${skill.name} => ${updatedName}`);
+            }
+        }
+
+        return res.status(201);
+
+    } catch (error) {
+        console.error('Error fixing abbreviations: ', error);
+        return res.status(500).json({error : "Something went wrong when fixing the abbreviations"});
+    }
+});
 
 /* Log in and sign up endpoints */
 
